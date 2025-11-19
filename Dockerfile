@@ -33,6 +33,10 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . /var/www/html/
 
+# Copy and make entrypoint script executable
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -61,5 +65,5 @@ RUN echo 'Listen ${PORT}' > /etc/apache2/ports.conf.in
 # Expose port
 EXPOSE 80
 
-# Override CMD to use PORT env var
-CMD ["sh", "-c", "sed -i \"s/\\${PORT}/${PORT:-80}/g\" /etc/apache2/ports.conf && apache2-foreground"]
+# Use entrypoint script
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
