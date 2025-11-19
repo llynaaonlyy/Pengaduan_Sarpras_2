@@ -31,7 +31,7 @@ RUN a2ensite default-ssl
 
 # Create Apache config for CodeIgniter
 RUN cat > /etc/apache2/sites-available/codeigniter.conf <<'EOF'
-<VirtualHost *:80>
+<VirtualHost *:${PORT}>
     ServerAdmin admin@example.com
     ServerName localhost
     DocumentRoot /var/www/html/public
