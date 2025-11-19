@@ -23,6 +23,13 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     exit(1);
 }
 
+// If APP_DEBUG environment variable is set, enable error display for debugging
+if ((getenv('APP_DEBUG') ?? 'false') === 'true') {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+}
+
 /*
  *---------------------------------------------------------------
  * SET THE CURRENT DIRECTORY
