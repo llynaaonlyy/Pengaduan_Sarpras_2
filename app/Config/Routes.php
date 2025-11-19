@@ -5,6 +5,12 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+// HEALTH CHECK (for Railway/monitoring)
+$routes->get('/health', function () {
+    return json_encode(['status' => 'ok', 'timestamp' => date('Y-m-d H:i:s')]);
+});
+
 $routes->get('/', 'Auth::login');
 
 // AUTH ROUTES
