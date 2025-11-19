@@ -1,8 +1,25 @@
 # Multi-stage build for Railway deployment
 FROM php:8.2-apache
 
-# Install required PHP extensions
-RUN docker-php-ext-install mysqli intl mbstring pdo pdo_mysql
+# Install required system packages and PHP extensions
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        g++ \
+        make \
+        autoconf \
+        pkg-config \
+        libicu-dev \
+        libxml2-dev \
+        zlib1g-dev \
+        libzip-dev \
+        libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+        libonig-dev \
+        default-mysql-client \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install -j"$(nproc)" intl mysqli pdo pdo_mysql mbstring \
+    && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
