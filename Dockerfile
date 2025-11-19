@@ -24,10 +24,42 @@ RUN apt-get update \
     && docker-php-ext-install -j"$(nproc)" intl mysqli pdo pdo_mysql mbstring zip \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Enable Apache modules
+RUN a2enmod rewrite headers
+RUN a2dissite 000-default
+RUN a2ensite default-ssl
 
-# Set working directory
+# Create Apache config for CodeIgniter
+RUN cat > /etc/apache2/sites-available/codeigniter.conf <<'EOF'
+<VirtualHost *:80>
+    ServerAdmin admin@example.com
+    ServerName localhost
+    DocumentRoot /var/www/html/public
+
+    <Directory /var/www/html/public>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+        
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteBase /
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteRule ^(.*)$ index.php?/$1 [L]
+        </IfModule>
+    </Directory>
+
+    <Directory /var/www/html>
+        Require all denied
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/codeigniter-error.log
+    CustomLog ${APACHE_LOG_DIR}/codeigniter-access.log combined
+</VirtualHost>
+EOF
+
+RUN a2dissite default-ssl && a2ensite codeigniter
 WORKDIR /var/www/html
 
 # Copy application files
@@ -43,24 +75,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Install dependencies
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
-
-# Set up writable directory permissions
-RUN chmod -R 777 /var/www/html/writable
-
-# Configure Apache DocumentRoot to public folder
-RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
-
-# Add Apache configuration for CodeIgniter
-RUN echo '<Directory /var/www/html/public>' > /etc/apache2/conf-available/codeigniter.conf && \
-    echo '    AllowOverride All' >> /etc/apache2/conf-available/codeigniter.conf && \
-    echo '    Require all granted' >> /etc/apache2/conf-available/codeigniter.conf && \
-    echo '</Directory>' >> /etc/apache2/conf-available/codeigniter.conf && \
-    a2enconf codeigniter
-
-# Configure Apache to listen on PORT environment variable (Railway)
-RUN echo 'Listen ${PORT}' > /etc/apache2/ports.conf.in
+# Set permissions for writable directories
+RUN chmod -R 755 /var/www/html && \
+    chmod -R 777 /var/www/html/writable && \
+    chown -R www-data:www-data /var/www/html/writable
 
 # Expose port
 EXPOSE 80
