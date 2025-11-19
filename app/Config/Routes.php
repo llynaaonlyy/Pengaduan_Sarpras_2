@@ -7,9 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // HEALTH CHECK (for Railway/monitoring)
-$routes->get('/health', function () {
-    return json_encode(['status' => 'ok', 'timestamp' => date('Y-m-d H:i:s')]);
-});
+$routes->get('/health', 'Health::index');
+$routes->get('/health/info', 'Health::info');
 
 $routes->get('/', 'Auth::login');
 
