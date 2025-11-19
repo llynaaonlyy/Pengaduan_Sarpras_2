@@ -55,8 +55,11 @@ RUN echo '<Directory /var/www/html/public>' > /etc/apache2/conf-available/codeig
     echo '</Directory>' >> /etc/apache2/conf-available/codeigniter.conf && \
     a2enconf codeigniter
 
+# Configure Apache to listen on PORT environment variable (Railway)
+RUN echo 'Listen ${PORT}' > /etc/apache2/ports.conf.in
+
 # Expose port
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Override CMD to use PORT env var
+CMD ["sh", "-c", "sed -i \"s/\\${PORT}/${PORT:-80}/g\" /etc/apache2/ports.conf && apache2-foreground"]
