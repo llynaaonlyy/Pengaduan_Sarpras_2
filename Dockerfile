@@ -17,8 +17,11 @@ RUN apt-get update \
         libfreetype6-dev \
         libonig-dev \
         default-mysql-client \
+        unzip \
+        git \
+        curl \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install -j"$(nproc)" intl mysqli pdo pdo_mysql mbstring \
+    && docker-php-ext-install -j"$(nproc)" intl mysqli pdo pdo_mysql mbstring zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache mod_rewrite
@@ -34,7 +37,7 @@ COPY . /var/www/html/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
