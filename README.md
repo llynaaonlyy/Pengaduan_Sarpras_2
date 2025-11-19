@@ -66,6 +66,9 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - Git installed
 - GitHub repository with your code
 
+### Important Notes for Railway Deployment
+⚠️ **PHP Version:** This project is configured for **PHP 8.0** compatibility with Railway. The project files indicate PHP 8.1 support, but Railway's us-west1 region has better support for PHP 8.0.
+
 ### Steps to Deploy
 
 1. **Push your code to GitHub**
@@ -99,6 +102,10 @@ Additionally, make sure that the following extensions are enabled in your PHP:
      database.default.password=${{MySQL.MYSQL_PASSWORD}}
      database.default.port=${{MySQL.MYSQL_PORT}}
      ```
+
+5. **Alternative Regions**
+   - If deployment fails in us-west1, try other Railway regions like us-east1 or eu-west1
+   - Different regions may have different PHP version availability
 
 5. **Run migrations (optional)**
    - After first deployment, you may need to run migrations
