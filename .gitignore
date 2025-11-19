@@ -32,3 +32,10 @@ coverage/
 # OS
 Thumbs.db
 *.log
+
+# Docker
+.dockerignore
+
+# Build artifacts
+.nixpacks/
+

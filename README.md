@@ -67,9 +67,13 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - GitHub repository with your code
 
 ### Important Notes for Railway Deployment
-⚠️ **PHP Version:** This project is configured for **PHP 8.0** compatibility with Railway. The project files indicate PHP 8.1 support, but Railway's us-west1 region has better support for PHP 8.0.
+⚠️ **PHP Version:** This project is configured for **PHP 8.2** which is stable and well-supported in Railway.
 
-### Steps to Deploy
+### Recommended: Deploy with Dockerfile (Most Reliable)
+
+Railway has better support for Docker deployments. The project includes a `Dockerfile` that uses Apache 2.4 with PHP 8.2.
+
+### Steps to Deploy with GitHub + Railway
 
 1. **Push your code to GitHub**
    ```bash
@@ -85,17 +89,20 @@ Additionally, make sure that the following extensions are enabled in your PHP:
    - Click "New Project" → "Deploy from GitHub repo"
    - Select your repository
 
-3. **Add MySQL Database**
-   - In Railway project, click "+ Add" 
+3. **Railway will automatically detect Dockerfile**
+   - If Railway doesn't auto-detect, click "Settings" → "Build" and select "Dockerfile"
+
+4. **Add MySQL Database**
+   - In Railway project, click "+ Add Service"
    - Select "MySQL"
    - Confirm and wait for deployment
 
-4. **Configure Environment Variables**
-   - In Railway, go to your project variables
-   - Add these variables:
+5. **Configure Environment Variables**
+   - In Railway, go to your project's "Variables" section
+   - Add these environment variables:
      ```
      CI_ENVIRONMENT=production
-     app.baseURL=https://your-app.railway.app/
+     app.baseURL=https://<your-project-name>.up.railway.app/
      database.default.hostname=${{MySQL.MYSQL_HOST}}
      database.default.database=${{MySQL.MYSQL_DB}}
      database.default.username=${{MySQL.MYSQL_USER}}
@@ -103,22 +110,24 @@ Additionally, make sure that the following extensions are enabled in your PHP:
      database.default.port=${{MySQL.MYSQL_PORT}}
      ```
 
-5. **Alternative Regions**
-   - If deployment fails in us-west1, try other Railway regions like us-east1 or eu-west1
-   - Different regions may have different PHP version availability
+6. **Run Migrations (Optional)**
+   - After first successful deployment:
+   - Use Railway CLI or shell to run: `php spark migrate`
 
-5. **Run migrations (optional)**
-   - After first deployment, you may need to run migrations
-   - Use Railway CLI or SSH into the container to run migrations:
-     ```bash
-     php spark migrate
-     ```
+### Alternative: Manual Docker Deployment
 
-### Important Notes
-- Make sure `.env` file is in `.gitignore` (it is by default)
-- The `writable/` directory must have write permissions for logs, cache, and uploads
-- Railway automatically sets the `PORT` environment variable
-- Your app will be accessible at `https://<your-project-name>.up.railway.app`
+If you prefer to test locally:
+```bash
+docker build -t infrastruktur-app .
+docker run -p 8080:80 infrastruktur-app
+```
+
+### Troubleshooting
+- Check Railway logs if deployment fails
+- Ensure database credentials are correctly set
+- Verify `.env` file is NOT in Git (should be in `.gitignore`)
+- Make sure `writable/` directory has proper permissions
+- Railway automatically sets the `PORT` environment variable to 80 (HTTP)
 
 ### Troubleshooting
 - Check Railway logs if deployment fails
