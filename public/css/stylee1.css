@@ -1,0 +1,129 @@
+/* === Layout dasar === */
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* === Sidebar === */
+.sidebar {
+    position: fixed; /* biar tetap di sisi kiri */
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh; /* penuh dari atas sampai bawah layar */
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 100; /* biar gak ketiban elemen lain */
+}
+
+.sidebar h2 {
+    color: royalblue;
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 15px; 
+    display: inline-block;          
+    border-bottom: 3px solid royalblue; 
+    padding-bottom: 5px;            
+}
+
+.sidebar ul.menu {
+    list-style: none;
+    padding: 0;
+    margin-top: -100px; 
+}
+
+.sidebar ul.menu li {
+    margin-bottom: 15px; 
+}
+
+.sidebar ul.menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar ul.menu li a:hover {
+    background: royalblue;
+    color: white;
+}
+
+/* === Tombol logout === */
+.logout-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none; 
+    margin-bottom: 50px; 
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #555;
+}
+
+/* === Topbar (judul + ikon user) === */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;              
+    padding: 15px 25px;              
+    border-radius: 10px;             
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);  
+    margin-top: -10px;               
+    margin-bottom: 25px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Judul di kiri */
+.topbar h1 {
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+}
+
+/* Ikon user di kanan */
+.user-icon a {
+    color: royalblue;
+    font-size: 22px;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #ffffff;             
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.user-icon a:hover {
+    background: royalblue;
+    color: #fff;
+}
+
+/* === Pesan biru === */
+.message {
+    background: #b3d1ff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    color: #002b5c;
+}

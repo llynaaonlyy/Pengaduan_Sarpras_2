@@ -1,0 +1,162 @@
+/* === Layout dasar === */
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* === Sidebar === */
+.sidebar {
+    position: fixed; /* biar tetap di sisi kiri */
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh; /* penuh dari atas sampai bawah layar */
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 100; /* biar gak ketiban elemen lain */
+}
+
+.sidebar h2 {
+    color: royalblue;
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 15px; 
+    display: inline-block;          
+    border-bottom: 3px solid royalblue; 
+    padding-bottom: 5px;            
+}
+
+.sidebar ul.menu {
+    list-style: none;
+    padding: 0;
+    margin-top: -100px; 
+}
+
+.sidebar ul.menu li {
+    margin-bottom: 15px; 
+}
+
+.sidebar ul.menu li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar ul.menu li a:hover {
+    background: royalblue;
+    color: white;
+}
+
+/* === Tombol logout === */
+.logout-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #333;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none; 
+    margin-bottom: 50px; 
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #555;
+}
+
+/* === Topbar (judul + ikon user) === */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;              
+    padding: 15px 25px;              
+    border-radius: 10px;             
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);  
+    margin-top: -10px;               
+    margin-bottom: 25px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* Judul di kiri */
+.topbar h1 {
+    font-size: 20px;
+    color: #333;
+    margin: 0;
+}
+
+/* Ikon user di kanan */
+.user-icon a {
+    color: royalblue;
+    font-size: 22px;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #ffffff;             
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.user-icon a:hover {
+    background: royalblue;
+    color: #fff;
+}
+
+.histori-list { display: flex; flex-direction: column; gap: 18px; }
+.empty { color:#666; padding:20px; background:#fff; border-radius:8px; }
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+  align-items: flex-start;
+}
+
+.card-left { flex: 1; padding-right: 18px; }
+.card-title { margin: 0 0 8px; color: #123; font-size: 18px; }
+.card-desc { margin: 0 0 12px; color: #333; line-height: 1.5; }
+
+.meta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; color:#555; font-size:13px; }
+.meta-item { background:#f2f7ff; padding:6px 10px; border-radius:8px; }
+
+.saran { font-size: 14px; color:#333; margin-top:6px; }
+
+.card-right { width: 220px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+.foto-wrap { width:180px; height:140px; overflow:hidden; border-radius:8px; background:#f4f6f8; display:flex; align-items:center; justify-content:center; }
+.foto-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+.foto-wrap.placeholder { color:#999; font-size:14px; }
+
+.status-badge {
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:600;
+  font-size:13px;
+  text-transform:capitalize;
+}
+
+/* warna status */
+.status-red { background:#fdecea; color:#a71d2a; border:1px solid #f5c2c7; }
+.status-yellow { background:#fff9e6; color:#7a5900; border:1px solid #fae3b3; }
+.status-green { background:#e6f6ea; color:#1b6b2a; border:1px solid #c5e6cc; }
+.status-gray { background:#f3f4f6; color:#666; border:1px solid #e6e9ec; }

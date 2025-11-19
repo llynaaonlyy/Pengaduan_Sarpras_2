@@ -1,0 +1,34 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Composer
+composer.phar
+vendor/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Application
+writable/cache/*
+writable/logs/*
+writable/uploads/*
+writable/session/*
+!writable/cache/.gitkeep
+!writable/logs/.gitkeep
+!writable/uploads/.gitkeep
+!writable/session/.gitkeep
+
+# Testing
+tests/database/*
+coverage/
+
+# OS
+Thumbs.db
+*.log
